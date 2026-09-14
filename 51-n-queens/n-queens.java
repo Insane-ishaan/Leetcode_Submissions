@@ -4,21 +4,21 @@ class Solution {
     private boolean isValid(int row, int col, List<String> board, int size) {
         //COL UP
         for (int i = row - 1; i >= 0; i--) {
-            if (i >= 0 && board.get(i).charAt(col) == 'Q') {
+            if (board.get(i).charAt(col) == 'Q') {
                 return false;
             }
         }
 
         //DIAGONAL RIGHT UP
-        for (int i = row - 1, j = col + 1; i >= 0 && col < size; i--, j++) {
-            if ((i >= 0 && j < size) && board.get(i).charAt(j) == 'Q') {
+        for (int i = row - 1, j = col + 1; i >= 0 && j < size; i--, j++) {
+            if (board.get(i).charAt(j) == 'Q') {
                 return false;
             }
         }
 
         //DIAGONAL LEFT UP
-        for (int i = row - 1, j = col - 1; i >= 0 && col >= 0; i--, j--) {
-            if ((i >= 0 && j >= 0) && board.get(i).charAt(j) == 'Q') {
+        for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+            if (board.get(i).charAt(j) == 'Q') {
                 return false;
             }
         }
