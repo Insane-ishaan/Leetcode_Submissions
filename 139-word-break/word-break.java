@@ -14,7 +14,7 @@ class Solution {
             return true;
         }
 
-        for (int end = start + 1; end <= len; end++) {
+        for (int end = start; end <= len; end++) {
             String temp = s.substring(start, end);
             if (wordDict.contains(temp) && helper(s, len, end, wordDict)) {
                 return dp[start] = true;
