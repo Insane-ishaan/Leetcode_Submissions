@@ -10,7 +10,7 @@ class Solution {
             return dp[start];
         }
 
-        if (wordDict.contains(start)) {
+        if (wordDict.contains(s.substring(start))) {
             return true;
         }
 
