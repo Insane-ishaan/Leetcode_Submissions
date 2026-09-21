@@ -1,31 +1,25 @@
 class Solution {
-    List<List<Integer>> ans;
-    Set<List<Integer>> st;
+    private List<List<Integer>> ans;
 
-    private void helper(int[] arr, int start, int len, int target, List<Integer> list) {
-        if (target < 0 || start >= len) {
-            return;
-        }
-
+    private void helper(int[] cd, int len, int target, List<Integer> currSum, int idx) {
         if (target == 0) {
-            if (!st.contains(list)) {
-                ans.add(new ArrayList<>(list));
-                st.add(new ArrayList<>(list));
-            }
+            ans.add(new ArrayList<>(currSum));
             return;
         }
 
-        list.add(arr[start]);
-        helper(arr, start + 1, len, target - arr[start], list);
-        helper(arr, start, len, target - arr[start], list);
-        list.remove(list.size() - 1);
-        helper(arr, start + 1, len, target, list);
+        if (idx >= len || target < 0) {
+            return;
+        }
+
+        currSum.add(cd[idx]);
+        helper(cd, len, target - cd[idx], currSum, idx);
+        currSum.remove(currSum.size() - 1);
+        helper(cd, len, target, currSum, idx + 1);
     }
 
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         ans = new ArrayList<>();
-        st = new HashSet<>();
-        helper(candidates, 0, candidates.length, target, new ArrayList<>());
+        helper(candidates, candidates.length, target, new ArrayList<>(), 0);
         return ans;
     }
 }
