@@ -1,4 +1,3 @@
--- Write your PostgreSQL query statement below
 WITH t1 AS(
     SELECT 
     user_id,
@@ -7,19 +6,16 @@ WITH t1 AS(
     activity_duration 
     FROM UserActivity
 ),
-t2 AS (
-    SELECT 
+t2 AS(
+    SELECT
     user_id,
-    ROUND(AVG(activity_duration) FILTER(WHERE activity_type = 'free_trial'),2) AS freeTrialAvg,
-    ROUND(AVG(activity_duration) FILTER(WHERE activity_type= 'paid'),2) AS paidTrialAvg
+    ROUND(AVG(CASE WHEN activity_type='free_trial' THEN activity_duration END),2) AS trial_avg_duration,
+    ROUND(AVG(CASE WHEN activity_type='paid' THEN activity_duration END),2) AS paid_avg_duration 
     FROM t1
     GROUP BY user_id
 )
 
-SELECT 
-user_id,
-freeTrialAvg AS trial_avg_duration,
-paidTrialAvg AS paid_avg_duration 
+SELECT user_id,trial_avg_duration,paid_avg_duration
 FROM t2
-WHERE freeTrialAvg IS NOT NULL AND paidTrialAvg IS NOT NULL
+WHERE trial_avg_duration IS NOT NULL AND paid_avg_duration IS NOT NULL
 ORDER BY user_id;
