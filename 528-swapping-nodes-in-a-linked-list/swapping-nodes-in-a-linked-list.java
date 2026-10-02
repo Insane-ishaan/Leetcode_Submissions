@@ -9,46 +9,28 @@
  * }
  */
 class Solution {
-    private int getLen(ListNode head) {
-        int len = 0;
-        ListNode curr = head;
-
-        while (curr != null) {
-            len += 1;
-            curr = curr.next;
-        }
-
-        return len;
-    }
-
-
-    private ListNode getGetSwapNode(ListNode head, int k) {
-        ListNode curr = head;
-        int count = 1;
-        while (curr != null) {
-            if (count == k) {
-                break;
-            }
-            count += 1;
-            curr = curr.next;
-        }
-
-        return curr;
-    }
-
     public ListNode swapNodes(ListNode head, int k) {
         if (head == null || head.next == null)
             return head;
 
-        int len = getLen(head);
-        ListNode getSwapOne = getGetSwapNode(head, k);
-        ListNode getSwapTwo = getGetSwapNode(head, len - k + 1);
+        ListNode temp = head;
+        while(k-- > 1){
+            temp = temp.next;
+        }
 
-        int node1 = getSwapOne.val;
-        int node2 = getSwapTwo.val;
+        ListNode p1 = temp;
+        ListNode p2 = head;
+        while (temp != null && temp.next != null) {
+            p2 = p2.next;
+            temp = temp.next;
+        }
 
-        getSwapOne.val = node2;
-        getSwapTwo.val = node1;
+        int node1 = p1.val;
+        int node2 = p2.val;
+
+        p1.val = node2;
+        p2.val = node1;
+
         return head;
     }
 }
