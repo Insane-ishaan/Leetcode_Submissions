@@ -21,24 +21,8 @@ class Solution {
         return len;
     }
 
-    ListNode prevSwapNodeOne = null;
 
-    private ListNode getGetSwapNodeOne(ListNode head, int k) {
-        ListNode curr = head;
-        int count = 1;
-        while (curr != null) {
-            if (count == k) {
-                break;
-            }
-            count += 1;
-            prevSwapNodeOne = curr;
-            curr = curr.next;
-        }
-
-        return curr;
-    }
-
-    private ListNode getGetSwapNodeTwo(ListNode head, int k) {
+    private ListNode getGetSwapNode(ListNode head, int k) {
         ListNode curr = head;
         int count = 1;
         while (curr != null) {
@@ -57,14 +41,14 @@ class Solution {
             return head;
 
         int len = getLen(head);
-        ListNode getSwapOne = getGetSwapNodeOne(head, k);
-        ListNode getSwapTwo = getGetSwapNodeTwo(head, len - k + 1);
+        ListNode getSwapOne = getGetSwapNode(head, k);
+        ListNode getSwapTwo = getGetSwapNode(head, len - k + 1);
 
         int node1 = getSwapOne.val;
         int node2 = getSwapTwo.val;
 
-        getSwapOne.val = node2; 
-        getSwapTwo.val = node1; 
+        getSwapOne.val = node2;
+        getSwapTwo.val = node1;
         return head;
     }
 }
