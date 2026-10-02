@@ -14,28 +14,14 @@ class Solution {
             return true;
 
         ListNode slow = head;
-        ListNode fast = head.next;
+        ListNode fast = head;
 
         while (fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
         }
 
-        ListNode secondH = slow.next;
-        slow.next = null;
-        ListNode curr;
-
-        if (fast == null) {
-            ListNode temp = head;
-            while (temp.next.next != null) {
-                temp = temp.next;
-            }
-            temp.next = null;
-            curr = head;
-        }else{
-            curr = head;
-        }
-
+        ListNode curr = slow;
         ListNode prev = null;
         ListNode next;
 
@@ -47,20 +33,14 @@ class Solution {
             curr = next;
         }
 
-        ListNode firsthalf = prev;
-        ListNode secondHalf = secondH;
-
-        while (firsthalf != null || secondHalf != null) {
-            if (firsthalf == null || secondHalf == null) {
+        fast = head;
+        while (fast != null && prev != null) {
+            if (fast.val != prev.val) {
                 return false;
             }
 
-            if (firsthalf.val != secondHalf.val) {
-                return false;
-            }
-
-            firsthalf = firsthalf.next;
-            secondHalf = secondHalf.next;
+            fast = fast.next;
+            prev = prev.next;
         }
 
         return true;
