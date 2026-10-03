@@ -21,6 +21,27 @@ public class Solution {
         return len;
     }
 
+    private ListNode getCollision(ListNode head, ListNode curr, int skips) {
+        ListNode curr2 = head;
+
+        int len = 0;
+        while (len != skips) {
+            len += 1;
+            curr = curr.next;
+        }
+
+        while (curr != null && curr2 != null) {
+            if (curr == curr2) {
+                return curr;
+            }
+
+            curr = curr.next;
+            curr2 = curr2.next;
+        }
+
+        return null;
+    }
+
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
 
         int len1 = getLen(headA);
@@ -29,55 +50,11 @@ public class Solution {
         ListNode curr1;
         ListNode curr2;
         if (len1 > len2) {
-            skips = len1 - len2;
-            curr1 = headA;
-            len2 = 0;
-            while (len2 != skips) {
-                len2 += 1;
-                curr1 = curr1.next;
-            }
-
-            curr2 = headB;
-            while (curr1 != null && curr2 != null) {
-                if (curr1 == curr2) {
-                    return curr1;
-                }
-
-                curr1 = curr1.next;
-                curr2 = curr2.next;
-            }
+            return getCollision(headB, headA, len1 - len2);
         } else if (len2 > len1) {
-            skips = len2 - len1;
-            len1 = 0;
-            curr2 = headB;
-            while (len1 != skips) {
-                len1 += 1;
-                curr2 = curr2.next;
-            }
-
-            curr1 = headA;
-            while (curr1 != null && curr2 != null) {
-                if (curr1 == curr2) {
-                    return curr1;
-                }
-
-                curr1 = curr1.next;
-                curr2 = curr2.next;
-            }
+            return getCollision(headA, headB, len2 - len1);
         } else {
-            curr1 = headA;
-            curr2 = headB;
-
-            while (curr1 != null && curr2 != null) {
-                if (curr1 == curr2) {
-                    return curr1;
-                }
-
-                curr1 = curr1.next;
-                curr2 = curr2.next;
-            }
+            return getCollision(headA, headB, 0);
         }
-
-        return null;
     }
 }
