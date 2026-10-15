@@ -48,11 +48,9 @@ class Solution {
                 temp = temp.next;
                 extraEl--;
             }
-
-            if(prev != null){
-                head = temp;
-                prev.next = null;
-            }
+            
+            head = temp;
+            prev.next = null;
         }
 
         return result;
