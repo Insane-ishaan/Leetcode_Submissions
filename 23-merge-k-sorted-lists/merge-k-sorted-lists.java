@@ -9,37 +9,78 @@
  * }
  */
 class Solution {
-    public ListNode mergeKLists(ListNode[] lists) {
-        if(lists.length == 0) return null;
+    private ListNode getMid(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head.next;
 
-        List<Integer> ls = new ArrayList<>();
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
 
-        for (ListNode list : lists) {
-            ListNode curr = list;
-            while (curr != null) {
-                ls.add(curr.val);
-                curr = curr.next;
+        return slow;
+    }
+
+    private ListNode merge(ListNode list1, ListNode list2) {
+        ListNode dummyNode = new ListNode(-1);
+        ListNode temp = dummyNode;
+
+        while (list1 != null && list2 != null) {
+            if (list1.val < list2.val) {
+                temp.next = list1;
+                temp = temp.next;
+                list1 = list1.next;
+            } else {
+                temp.next = list2;
+                temp = temp.next;
+                list2 = list2.next;
             }
         }
-        
-        if(ls.isEmpty()) return null;
 
-        Collections.sort(ls);
-        for (int v : ls) {
-            System.out.print(v + " ");
+        if (list1 != null) {
+            temp.next = list1;
+        } else if (list2 != null) {
+            temp.next = list2;
         }
 
-        int value = ls.remove(0);
-        ListNode newList = new ListNode(value);
-        ListNode curr = newList;
+        return dummyNode.next;
+    }
 
-        while (!ls.isEmpty()) {
-            int v = ls.remove(0);
-            ListNode newNode = new ListNode(v);
-            curr.next = newNode;
-            curr = curr.next;
+    private ListNode sortList(ListNode head) {
+        if (head == null || head.next == null)
+            return head;
+
+        ListNode mid = getMid(head);
+        ListNode right = mid.next;
+        mid.next = null;
+        ListNode left = head;
+
+        ListNode l = sortList(left);
+        ListNode r = sortList(right);
+
+        return merge(l, r);
+    }
+
+    public ListNode mergeKLists(ListNode[] lists) {
+        int len = lists.length;
+        if (len < 1) {
+            return null;
         }
 
-        return newList; 
+        ListNode result = new ListNode(-1);
+        ListNode it = result;
+
+        for (int i = 0; i < len; i++) {
+            if (lists[i] == null)
+                continue;
+            it.next = lists[i];
+            while (it.next != null) {
+                it = it.next;
+            }
+        }
+
+        ListNode temp = result;
+
+        return sortList(result.next);
     }
 }
