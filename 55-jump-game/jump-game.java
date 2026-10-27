@@ -1,32 +1,17 @@
 class Solution {
-    Boolean dp[];
+    public boolean canJump(int[] nums) {
+        int len = nums.length;
+        boolean[] dp = new boolean[len];
+        dp[0] = true;
 
-    private boolean helper(int[] n, int len, int i) {
-        if (len - 1 == i) {
-            return dp[i] = true;
-        }
-
-        if (len <= i) {
-            return dp[i] = false;
-        }
-
-        if (dp[
-            i] != null) {
-            return dp[i];
-        }
-
-        for (int idx = 1; idx <= n[i]; idx++) {
-            if (helper(n, len, idx + i)) {
-                return dp[idx] = true;
+        for (int i = 0; i < len; i++) {
+            if (dp[i] == false)
+                continue;
+            for (int j = i + 1; j <= i + nums[i] && j < len; j++) {
+                dp[j] = true;
             }
         }
 
-        return dp[i] = false;
-    }
-
-    public boolean canJump(int[] nums) {
-        int len = nums.length;
-        dp = new Boolean[len + 1];
-        return helper(nums, len, 0);
+        return dp[len - 1];
     }
 }
