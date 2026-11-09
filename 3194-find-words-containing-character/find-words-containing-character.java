@@ -1,7 +1,7 @@
 class Solution {
     private boolean helper(String word, char x) {
-        for (char w : word.toCharArray()) {
-            if (w == x) {
+        for (int i = 0; i < word.length(); i++) {
+            if (word.charAt(i) == x) {
                 return true;
             }
         }
